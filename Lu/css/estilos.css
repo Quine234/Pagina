@@ -1,3 +1,5 @@
+
+/*Juego 2 */
 #idJue2{
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
@@ -12,6 +14,18 @@
     background-repeat: no-repeat;
 }
 
+#idBotones{
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+/*Juego 3 */
+
+
+
+/*Juego 4 */
 
 #idJue4 {
     font-family: Arial, Helvetica, sans-serif;
@@ -20,25 +34,75 @@
 }
 
 #idDivTabMin {
-    width: 400px;
-    height: 400px;
-    border: 10px solid darkgray;
-    background-color: lightgray;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    
+  width: 400px;
+  height: 400px;
+  border: 10px solid darkgray;
+  background-color: lightgray;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  box-sizing: border-box;
 }
 
 #idDivTabMin div {
-    width: 48px;
-    height: 48px;
-    border: 1px solid whitesmoke;
-    font-size: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  border: 1px solid whitesmoke;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
 }
+
+#idBotBan {
+    display: flex;
+    align-items: center;           
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+#idBotones_Minas {
+    display: flex;
+    align-items: center; 
+    gap: 10px;          
+    justify-content: center;
+}
+
+#idVolM:active{
+  background-color: darkgray;
+}
+
+#idVolM{
+    width: 100px;
+    height: 50px;
+    font-size: 10px;
+    background-color: lightgrey;
+    border: none;  
+}
+
+#idInt4:active{
+  background-color: darkgray;
+}
+#idInt4{
+   width: 100px;
+    height: 50px;
+    font-size: 10px;
+    background-color: lightgrey;
+    border: none;  
+}
+
+#idBotComp4:active{
+  background-color: darkgray;
+}
+
+#idBotComp4{
+    width: 100px;
+    height: 50px;
+    font-size: 10px;
+    background-color: lightgrey;
+    border: none; 
+}
+
 #idBotonBandera{
     width: 100px;
     height: 50px;
@@ -50,6 +114,7 @@
 .tileElegida{
     background: darkgrey;
 }
+
 .x1{
     color: blue;
 }
@@ -74,3 +139,4 @@
 .x8{
     color:grey;
 }
+

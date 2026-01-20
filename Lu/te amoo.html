@@ -1,3 +1,4 @@
+<!--💣  🚩-->
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -6,6 +7,8 @@
         <title>Sos El Amor De Mi Vida</title>
         <script src="js/clases.js"></script>
         <script src="js/funciones.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        
     </head>
     <body>
         <header id="idHeader">
@@ -21,7 +24,7 @@
         <main>
             <section id="idInfoGen">
                 <h2 id="idExp"> La Explicación </h2>
-                <div id="idDExp">La razón por la cual te estoy haciendo esto es porque yo soy muy pj para hacer regalitos y como soy un cerebrito para estas cosass prefiero que tu puedas ver como te quiero expresar mi amor, asi que hice unos jueguitos aca y vas a poder ver abajo unos botoncitos en los cuales si clickeas te aparece un juego en cada uno, y al final una razon por la cual te amo mucho, se, muy boludaso pero ta, te amo mucho</div>
+                <div id="idDExp">Feliz año y un poquito amor. La razón por la cual te estoy haciendo esto es porque yo soy muy pj para hacer regalitos y como soy un cerebrito para estas cosass prefiero que tu puedas ver como te quiero expresar mi amor, asi que hice unos jueguitos aca y vas a poder ver abajo unos botoncitos en los cuales si clickeas te aparece un juego en cada uno, y al final una razon por la cual te amo mucho, se, muy boludaso pero ta, te amo mucho</div>
                 <div>Para desbloquear esas razones tenes que ganar en cada jueguito</div>
                 <br>
                 <div id="idBots"><input type="button" id="idBotJue1" value="Jueguito 1"><input type="button" id="idBotJue2" value="Jueguito 2"><input type="button" id="idBotJue3" value="Jueguito 3"><input type="button" id="idBotJue4" value="Jueguito 4"></div>
@@ -39,14 +42,14 @@
                     </tbody>
                 </table>
                 <div id="idDivResp"><input type="button" id="idBotResp1" value="Respuesta1"><input type="button" id="idBotResp2" value="Respuesta2"><input type="button" id="idBotResp3" value="Respuesta3"></div>
-                <p id="idBotones"><input type="button" id="idVolverT" value="Volver"><input type="button" id="idAyudaT" value="Ayuda"><input type="button" id="idSiguienteT" value="Siguiente"></p>
+                <p id="idBotonesT"><button type="button" id=" idVolverT" class="btn btn-primary">Volver</button><input type="button" id="idAyudaT" value="Ayuda" class="btn btn-primary" ><input type="button" id="idSiguienteT" value="Siguiente" class="btn btn-primary"></p>
             </section>
             <section id="idJue2">
                 <div><h2>El Segundo Juego ES:</h2></div> 
                 <div><h1>FLAPPY QUINE</h1></div>
                 <p><input type="button" value="Musiquita" id="idMusFla"></p>    
                 <div id="idDivCan"><canvas id="idCanvas"></canvas></div>
-                <div id="idBotones"><input type="button" id="idVolverM" value="Volver"><input type="button" id="idInt" value="Intentar De Nuevo"><input type="button" id="idCompletar" value="Completar"></div> 
+                <div id="idBotones"><input type="button" id="idVolverM" value="Volver" class="btn btn-primary"><input type="button" id="idInt" value="Intentar De Nuevo" class="btn btn-primary"><input type="button" id="idCompletar" value="Completar" class="btn btn-primary"></div> 
             </section>
             <section id="idJue3">
                 <div><h2>El Tercer Juego ES:</h2></div> 
@@ -55,10 +58,13 @@
             <section id="idJue4">
                 <div><h2>Cuarto Juego ES:</h2></div> 
                 <div><h1>Minesweeper (Buscaminas) </h1></div>
-                <h1>Mines <span id="idCuentaMinas">0</span></h1>
-                <div id="idDivTabMin"></div>
+                <h1>Mines: <span id="idCuentaMinas">0</span></h1>
+                <div id="idDivTabMin">
+                    
+                </div>
                 <br>
-                <div id="idBotones_Minas"><input type="button" value="🚩" id="idBotonBandera"></div>
+                <div id="idBotBan"><button id="idBotonBandera">🚩</button></div>
+                <div id="idBotones_Minas"><button id="idVolM">Volver</button><button id="idInt4">Reintentar</button><button id="idBotComp4">Completar</button></div>
             </section>
         </main>
     </body>

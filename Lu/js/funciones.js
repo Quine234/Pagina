@@ -1,21 +1,36 @@
-window.addEventListener("load", inicio(document.addEventListener('DOMContentLoaded', function () {
-    let esta1 = false;
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('idJue2').style.display = 'none';
+    
+    
+    
     let razon2 = document.getElementById("idRa2");
+    let razon4 = document.getElementById("idRa4");
         razon2.disabled = true;
-            Flap();
-})));
+        razon4.disabled = true;
+    let hab = false;
+        inicio();
+        Flap();
+        minesweeper();
+        
+});
+
 function inicio() {
+  document.getElementById('idBotJue2').addEventListener('click', function(){
+    document.getElementById('idJue2').style.display = 'block';
+    hab = true;
+  });  
 }
 function trivia(){
 
 }
+
+
+//DONE FOR NOW NEEDS VOLVER
 function Flap() {
     let razon2 = document.getElementById("idRa2");
     razon2.disabled = true;
     let paso2 = false;
-    if (paso2){
-       razon2.disabled = false;
-    }
     let board = document.getElementById("idCanvas");
     let boardWidth = 360;
     let boardHeight = 640;
@@ -178,7 +193,30 @@ function Flap() {
         btn.disabled = true; 
     }
 });  
+
+let btnC = document.getElementById("idCompletar");
+btnC.addEventListener('click', function(){
+    if(terJuego || terJuegoG) return;
+
+    terJuegoG = true;
+    terJuego = false;
+
+    ganar.currentTime = 0;
+    ganar.play();
+
+    context.fillStyle = "white";
+    context.font = "45px sans-serif";
+    context.fillText("BIENNN", 1, 90);
+
+    paso2 = true;
+    razon2.disabled = false;
+    btn.disabled = true;
+
+});
+
     function moveS(e) {
+        if(!hab) return;
+
         if (e.code == "KeyX") {
             if (!empJuego) {
                 empJuego = true;
@@ -202,9 +240,256 @@ function detectCol(a, b){
     return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
 }
 }
+
+
 function memoria(){
 
 }
-function minesweeper (){
 
+
+
+//DONE FOR NOW NEEDS VOLVER
+function minesweeper (){
+let razon4 = document.getElementById("idRa4");
+razon4.disabled = true;
+let paso4 = false; 
+if(paso4){
+    razon4.disabled = false;
+}
+
+
+let audFail = new Audio("./sonido/Bonk.mp3");
+let audWin = new Audio("./sonido/win.mp3");
+let tabla = [];
+let filas = 8; 
+let columnas = 8;
+
+let contMin = 5;
+let locMin = [];
+
+let tileClick = 0;
+let bandPer = false;
+
+let finJue4 = false;
+
+window.onload = function () {
+    const btn = document.getElementById('idBotJue4');
+    btn.addEventListener('click', empJue4);
+    
+};
+
+function ponerMin() {
+ let minasRes = contMin;
+ while(minasRes > 0){
+    let i = Math.floor(Math.random() * filas);
+    let j = Math.floor(Math.random() * columnas);
+    let id = i.toString() + '-' + j.toString();
+
+    if(!locMin.includes(id)){
+        locMin.push(id);
+        minasRes -= 1;
+    }
+ }
+}
+
+function empJue4(){
+    document.getElementById("idCuentaMinas").innerText = contMin;
+    document.getElementById('idBotonBandera').addEventListener('click', ponBandera);
+    document.getElementById('idBotComp4').addEventListener('click', compJuego4);
+    document.getElementById('idInt4').addEventListener('click', reInt);
+    ponerMin();
+
+
+    for(let i=0; i<filas; i++){
+        let fila = [];
+        for(let j=0; j<columnas; j++){
+            let tile = document.createElement('div');
+            tile.id = i.toString() + '-' + j.toString();
+            tile.addEventListener('click', apretarT)
+            document.getElementById('idDivTabMin').append(tile);
+            fila.push(tile);
+        }
+        tabla.push(fila);
+    }
+}
+
+
+function ponBandera() {
+    if(bandPer){
+        bandPer = false;
+        document.getElementById('idBotonBandera').style.backgroundColor = 'lightgray'
+    }
+    else {
+        bandPer = true;
+        document.getElementById('idBotonBandera').style.backgroundColor = 'darkgray'
+    }
+}
+
+function apretarT(){
+    if(finJue4 || this.classList.contains('tileElegida')){
+        return;
+    }
+
+    let tile = this;
+    if(bandPer){
+        if(tile.innerText == ""){
+            tile.innerText =  "🚩";
+        }
+        else if(tile.innerText == "🚩"){
+            tile.innerText = "";
+        }
+        return;
+    }
+    if(locMin.includes(tile.id)){
+        let btn = document.getElementById('idBotComp4');
+        btn.disabled = true;
+        audFail.play();
+        alert("Vamos Puchi, Vos podes. Te amo.");
+        finJue4 = true;
+        mostrarMin();
+        return;
+    }
+    let coords = tile.id.split('-');
+    let i = parseInt(coords[0]);
+    let j = parseInt(coords[1]);
+    checkMina(i, j);
+
+
+
+}
+
+
+function mostrarMin(){
+    for(let i=0; i<filas; i++){
+        for(let j=0; j<columnas; j++){
+            let tile = tabla[i][j];
+            if(locMin.includes(tile.id)){
+                tile.innerText = '💣';
+                tile.style.backgroundColor = "red";
+            }
+        }
+    }
+}
+
+
+
+function checkMina(i, j) {
+    if (i<0 || i>= filas || j< 0 || j>= columnas){
+        return;
+    }
+    if(tabla[i][j].classList.contains('tileElegida')){
+        return;
+    }
+    tabla[i][j].classList.add('tileElegida');
+    tileClick += 1;
+
+
+    let encont = 0;
+
+    //arriba
+    encont += fijartT(i-1, j-1);
+    encont += fijartT(i-1, j);
+    encont += fijartT(i-1, j+1);
+    
+    //misma fila
+    encont += fijartT(i, j-1);
+    encont += fijartT(i, j+1);
+
+    //abajo
+    encont += fijartT(i+1, j-1);
+    encont += fijartT(i+1, j);
+    encont += fijartT(i+1, j+1);
+
+    if (encont > 0){
+        tabla[i][j].innerText = encont;
+        tabla[i][j].classList.add('x' + encont.toString());
+    }
+    else{
+        //todos arriba
+        checkMina(i-1, j-1);
+        checkMina(i-1, j);
+        checkMina(i-1, j+1);
+
+        //medio
+        checkMina(i, j-1);
+        checkMina(i, j+1);
+
+        //abajo
+        checkMina(i+1, j-1);
+        checkMina(i+1, j);
+        checkMina(i+1, j+1);
+       
+    }
+
+    if(tileClick == filas * columnas - contMin) {
+        audWin.play();
+        document.getElementById('idCuentaMinas').innerText = 'Listo. Bien puchiii!';
+        let btn = document.getElementById('idBotComp4');
+        btn.disabled = true;
+        finJue4 = true;
+        paso4 = true;
+        razon4.disabled = false;
+        
+    }
+   
+
+}
+
+
+function fijartT(i, j){
+    if (i<0 || i>= filas || j< 0 || j>= columnas){
+        return 0;
+    }
+    if(locMin.includes(i.toString() + '-' + j.toString())){
+        return 1;
+    }
+
+return 0;
+}
+
+function compJuego4(){
+    audWin.play();
+    finJue4 = true;
+    paso4 = true;
+    razon4.disabled = false;
+    mostrarMin();
+    document.getElementById('idCuentaMinas').innerText = 'Listo. Bien puchiii!';
+    let btn = document.getElementById('idBotComp4');
+    btn.disabled = true;
+    
+}
+
+function reInt(){
+finJue4 = true;
+
+tileClick = 0;
+bandPer = false;
+document.getElementById('idBotonBandera').style.backgroundColor = 'lightgray';
+
+locMin = [];
+tabla = [];
+
+const cont = document.getElementById('idDivTabMin');
+cont.innerHTML = "";
+
+document.getElementById("idCuentaMinas").innerText = contMin;
+
+ponerMin();
+
+for (let i = 0; i < filas; i++) {
+        let fila = [];
+        for (let j = 0; j < columnas; j++) {
+            let tile = document.createElement('div');
+            tile.id = i.toString() + '-' + j.toString();
+            tile.addEventListener('click', apretarT);
+            cont.append(tile);
+            fila.push(tile);
+        }
+        tabla.push(fila);
+    }
+
+    finJue4 = false;
+    let btn = document.getElementById('idBotComp4');
+    btn.disabled = false;
+}
 }
