@@ -1,7 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('idJue2').style.display = 'none';
-    
+    document.getElementById('idJue4').style.display = 'none';
     
     
     let razon2 = document.getElementById("idRa2");
@@ -11,7 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let hab = false;
         inicio();
         Flap();
-        minesweeper();
+        Minesweeper();
+        Memoria();
         
 });
 
@@ -19,7 +20,11 @@ function inicio() {
   document.getElementById('idBotJue2').addEventListener('click', function(){
     document.getElementById('idJue2').style.display = 'block';
     hab = true;
-  });  
+  }); 
+  document.getElementById('idBotJue4').addEventListener('click', function(){
+    document.getElementById('idJue4').style.display = 'block';
+  }); 
+  
 }
 function trivia(){
 
@@ -242,14 +247,89 @@ function detectCol(a, b){
 }
 
 
-function memoria(){
+function Memoria(){
+    let razon3 = document.getElementById("idRa3");
+    razon3.disabled = true;
+
+    let errores = 0;
+
+    let listaC = [
+        "darkness",
+        "double",
+        "fairy",
+        "fighting",
+        "fire",
+        "grass",
+        "lightning",
+        "metal",
+        "psychic",
+        "water"
+    ]
+
+    let setC;
+    let tablaC = [];
+    let filasC = 4;
+    let columnasC = 5;
+
+        barajar();
+        empJue3();
+    
+
+    function barajar (){
+        setC = listaC.concat(listaC);
+        
+        for(let i = 0; i < setC.length; i++){
+            let j = Math.floor(Math.random() * setC.length);
+
+            let temp = setC[i]
+            setC[i] = setC [j];
+            setC[j] = temp;
+        
+        }
+    }
+
+    function empJue3() {
+        for(let f = 0; f < filasC; f++){
+            let filaC = [];
+            for(let c = 0; c < columnasC; c++){
+                let cartaImg = setC.pop();
+                filaC.push(cartaImg);
+
+                let carta = document.createElement('img');
+                carta.id = f.toString() + '-' + c.toString();
+                carta.src = './img/cards/' + cartaImg + '.jpg'
+                carta.classList.add('carta');
+                carta.addEventListener('click', selecC);
+                document.getElementById('idTabla').append(carta);
+            }
+            tablaC.push(filaC);
+        }
+        setTimeout(escCart, 3000);
+    }
+
+    function escCart(){
+        for(let f = 0; f < filasC; f++){
+            for(let c = 0; c < columnasC; c++){
+                let carta = document.getElementById(f.toString() + '-' + c.toString());
+                carta.src = './img/cards/back.jpg'
+            }
+        }
+    }
+
+function selecC(){
+    if(this.src.includes('./img/cards/back.jpg')){}
+}
+
+
+
+
 
 }
 
 
 
 //DONE FOR NOW NEEDS VOLVER
-function minesweeper (){
+function Minesweeper (){
 let razon4 = document.getElementById("idRa4");
 razon4.disabled = true;
 let paso4 = false; 
@@ -272,11 +352,10 @@ let bandPer = false;
 
 let finJue4 = false;
 
-window.onload = function () {
-    const btn = document.getElementById('idBotJue4');
-    btn.addEventListener('click', empJue4);
+const btn = document.getElementById('idBotJue4');
+btn.addEventListener('click', empJue4);
     
-};
+
 
 function ponerMin() {
  let minasRes = contMin;
@@ -424,6 +503,8 @@ function checkMina(i, j) {
     if(tileClick == filas * columnas - contMin) {
         audWin.play();
         document.getElementById('idCuentaMinas').innerText = 'Listo. Bien puchiii!';
+        let btnR = document.getElementById('idInt4') ;
+        btnR.disabled = true;
         let btn = document.getElementById('idBotComp4');
         btn.disabled = true;
         finJue4 = true;
