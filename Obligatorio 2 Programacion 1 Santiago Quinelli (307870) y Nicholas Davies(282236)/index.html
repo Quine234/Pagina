@@ -1,0 +1,104 @@
+<!-- Santiago Quinelli 307870 y Nicholas Davies (282236) -->
+<!DOCTYPE html>
+<html lang ="es">
+    <head>
+        <link rel="stylesheet" href="css/estilos.css">
+        <meta charset="utf-8">
+        <title>Trivia!</title>
+        <script src="js/clases.js"></script>
+        <script src="js/datosPrueba.js"></script>
+        <script src="js/funciones.js"></script>
+    </head>
+    <body>
+        <header id="idHeader">
+           <img src="img/Trivia.jpeg" alt="trivia" id="idImgTri"><br>
+           <ul id="idListaHead">
+                <li><a href="#idDescripcion" id="idLinkD"> Información General</a></li>
+                <li> <a href="#idGestion" id="idLinkG"> Administrar</a></li>
+                <li> <a href="#idJugar" id="idLinkJ"> ¡Jugar! </a></li>
+           </ul>
+        </header>
+        <main>
+            <section id="idDescripcion">
+                <h2  id="idDescGen">Descripción General</h2>
+                <h4 id="idQue">¿Qué encontrarás en este sitio?</h4>
+                <p>En este sitio podrás crear temas, preguntas y jugar a nuestra version del conocido juego de Trivia.</p>
+                <p>Es una prueba de conocimientos generales como preguntas y respuestas.</p>
+                <div>Cada tema tiene un nombre y una descripcion. Cada pregunta es de un tema, tiene un nivel (1-muy facil, ..., 5-muy dificil), un texto  que la describe y apareceran varias respuestas, pero una sola es la correcta.</div>
+                <div> Si la respondes bien, sumas 10 puntos, por cada error pierdes un punto ¡pero puede usar la ayuda!.</div>
+                <p>El sitio fue desarrollado en el 1er. semestre 2024 - Programacion 1 - Universidad ORT Uruguay por:</p>
+                <p><img src="img/Santiago_Quinelli.jpeg" id="idSanti" alt="quinelli"> Santiago Quinelli 307870 y <img src="img/Nicholas_Davies.jpeg" id="idNikki" alt="davies">Nicholas Davies 282236 </p>
+            </section>
+            <section id="idGestion">
+                <h2 id="idGestionT">Gestion De Temas</h2>
+                <h4 id="idAlta">Alta de temas</h4>
+                <form id="idFormGest">
+                    <p>Nombre: <input type="text" id="idTextoNom" required> Descripcion: <input type="text" id="idTextoDesc" required><input type="button" value="Agregar" id="idBot"></p>
+                </form>
+                <h4 id="idDatos">Datos generales de temas</h4>
+                <p id="idLinea">Lista de temas (total de temas:0)</p>
+                <ul id="idListaT">
+                    <li>Sin Datos</li>
+                </ul>
+                <p id="idProm">Promedio de preguntas por tema(cantidad total de preguntas/cantidad total de temas): sin datos</p>
+                <p>Temas sin preguntas:</p>
+                <ul id="idListaSin">
+                    <li>Sin Datos</li>
+                </ul>
+                <h2 id="idGestPreg">Gestion de Preguntas</h2>
+                <h4>Alta de preguntas</h4>
+                <form id="idFormPreg">
+                    <div>Tema <select id="idSelTem" required></select> Nivel <input type="number" value="1" id="idNivel" min="1" max="5" required></div>
+                    <div>Texto de la pregunta<input id="idTextPreg" required> Respuesta Correcta<input id="idRespC" required>Respuestas Incorrectas<input id="idRespI" required> <input type="button" value="Agregar" id="idBotResp"></div>
+                </form>  
+                <h4 id="idDatosGen">Datos generales de preguntas</h4>
+                <p id="idTotPreg">Total de preguntas registradas: 0 preguntas</p>
+                <p id="idMax">Maximo puntaje obtenido por un jugador: sin datos</p>
+                <p> Preguntas registradas:
+                    <input type="radio" name="rad" checked id="idRadio1" >
+                    <label for="idRadio1">Orden nombre tema creciente/nivel creciente</label>
+                    <input type="radio" id="idRadio2" name="rad">
+                    <label for="idRadio2">Orden nombre tema decreciente/nivel decreciente</label></p>
+                    <div id="idDivT">
+                    <table id="idTable">
+                        <thead id="idTHead">
+                            <tr>
+                                <th id="idCelda">Nombre del tema</th>
+                                <th id="idCeldab">Nivel</th>
+                                <th id="idCeldac">Texto de la pregunta</th>
+                                <th id="idCeldad">Respuesta correcta</th>
+                                <th id="idCeldae">Respuestas Incorrectas</th>
+                            </tr>
+                        </thead>
+                        <div id="idDB">
+                            <tbody id="idBody">  
+                            </tbody>
+                        </div>
+                         
+                        </table>  
+                    </div>
+            </section>
+            <section id="idJugar">
+                <h2 id="idAJ">¡A Jugar!</h2>
+                <h4>Configuracion</h4>
+                <form id="idFormJug">
+                    <p>Tema a elegir <select id="idElegir"></select required>Nivel del juego<input type="number" value="1"  id="idNumNiv" min="1" max="5"> <input type="button" value="Jugar" id="idBotJugar"></p>
+                </form>
+                <div id="idAJugar">
+                    <h4 id="idJuego">Juego</h4>
+                <p id="idPunt">Puntaje acumulado esta partida: 0</p>
+                <p>La pregunta es...:</p>
+                <table id="idTablaJugar">
+                    <tbody>
+                        <tr>
+                            <td>TEXTO DE LA PREGUNTA</td>
+                        </tr> 
+                    </tbody>
+                </table>
+                <div id="idBotones"><input type="button" value="Respuesta 1" id="idResp"> <input type="button" value="Respuesta 2" id="idResp2"><input type="button" value="Respuesta 3" id="idResp3"></div>
+                <p id="idButtons"><input type="button" value="Ayuda" id="idAyuda"><input type="button" value="Siguiente Pregunta" id="idSig"><input type="button" value="Terminar" id="idTerm"></p>
+                </div>
+                </section>
+        </main>
+    </body>
+</html>
