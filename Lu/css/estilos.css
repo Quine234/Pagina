@@ -1,4 +1,19 @@
-
+#idNos1{
+    height: 300px;
+    width: 500px;
+}
+#idNos2{
+    height: 350px;
+    width: 500px;
+}
+#idNos3{
+    height:600px;
+    width: 500px;
+}
+#idNos4{
+    height: 350px;
+    width: 500px;
+}
 /*Juego 2 */
 #idJue2{
     font-family: Arial, Helvetica, sans-serif;
