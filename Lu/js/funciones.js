@@ -1,18 +1,24 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('idJue2').style.display = 'none';
+    document.getElementById('idJue3').style.display = 'none';
     document.getElementById('idJue4').style.display = 'none';
     
     
     let razon2 = document.getElementById("idRa2");
+    let razon3 = document.getElementById("idRa3");
     let razon4 = document.getElementById("idRa4");
         razon2.disabled = true;
+        razon3.disabled = true;
         razon4.disabled = true;
     let hab = false;
+    let hab3 = false;
+    let startMemoria;
         inicio();
         Flap();
         Minesweeper();
-        Memoria();
+        
+        
         
 });
 
@@ -20,6 +26,10 @@ function inicio() {
   document.getElementById('idBotJue2').addEventListener('click', function(){
     document.getElementById('idJue2').style.display = 'block';
     hab = true;
+  }); 
+   document.getElementById('idBotJue3').addEventListener('click', function(){
+    document.getElementById('idJue3').style.display = 'block';
+    Memoria();
   }); 
   document.getElementById('idBotJue4').addEventListener('click', function(){
     document.getElementById('idJue4').style.display = 'block';
@@ -221,7 +231,6 @@ btnC.addEventListener('click', function(){
 
     function moveS(e) {
         if(!hab) return;
-
         if (e.code == "KeyX") {
             if (!empJuego) {
                 empJuego = true;
@@ -270,9 +279,19 @@ function Memoria(){
     let tablaC = [];
     let filasC = 4;
     let columnasC = 5;
+    let tarj1Sel;
+    let tarj2Sel;
+    let paresHechos = 0;
+    let totalPares = (filasC * columnasC) / 2;
+    let maxErrores = 15;
+    let bloqueado = false;
+    let cartasAcertadas = new Set(); 
+    let audFail = new Audio("./sonido/Bonk.mp3");
+    let audWin = new Audio("./sonido/win.mp3");
 
-        barajar();
-        empJue3();
+    barajar();
+    empJue3();
+    
     
 
     function barajar (){
@@ -305,7 +324,9 @@ function Memoria(){
             tablaC.push(filaC);
         }
         setTimeout(escCart, 3000);
-    }
+    
+        }
+        
 
     function escCart(){
         for(let f = 0; f < filasC; f++){
@@ -317,15 +338,73 @@ function Memoria(){
     }
 
 function selecC(){
-    if(this.src.includes('./img/cards/back.jpg')){}
+    if(cartasAcertadas.has(this.id)) return;
+    if(this.src.includes('back.jpg')){
+        if(!tarj1Sel) {
+            tarj1Sel = this;
+            let coord = tarj1Sel.id.split('-');
+            let r = parseInt(coord[0]);
+            let c = parseInt(coord[1]);
+            tarj1Sel.src = './img/cards/' + tablaC[r][c] + ".jpg";
+
+        }
+        else if (!tarj2Sel && this != tarj1Sel){
+            tarj2Sel = this;
+            let coord = tarj2Sel.id.split('-');
+            let r = parseInt(coord[0]);
+            let c = parseInt(coord[1]);
+            tarj2Sel.src = './img/cards/' + tablaC[r][c] + ".jpg";
+
+            setTimeout(act, 1000);
+        } 
+    }
+}
+
+function act() {
+    if(tarj1Sel.src != tarj2Sel.src) {
+        tarj1Sel.src = './img/cards/back.jpg';
+        tarj2Sel.src = './img/cards/back.jpg';
+        errores += 1;
+        document.getElementById('idErrores').innerText = errores;
+
+        if (errores >= 15) {
+            finJuego(false);
+        }
+    } else {
+        paresHechos += 1;
+        if (paresHechos === (filasC * columnasC) / 2) {
+            finJuego(true);
+        }
+
+    }
+
+
+    tarj1Sel = null;
+    tarj2Sel = null;
+
+}
+
+function finJuego(gano) {
+    for (let f = 0; f < filasC; f++) {
+        for (let c = 0; c < columnasC; c++) {
+            let carta = document.getElementById(f + '-' + c);
+            carta.style.pointerEvents = 'none';
+        }
+    }
+    if (gano) {
+        audWin.play();
+        document.getElementById('idErrores').innerText = "BIEN PUCHIIII TODO ENCONTRADITOOO";
+        razon3.disabled = false;
+    } 
+    else {
+        audFail.play();
+        alert("Vamos gordi que podes, yo confio!!!!!");
+    }
 }
 
 
 
-
-
 }
-
 
 
 //DONE FOR NOW NEEDS VOLVER
