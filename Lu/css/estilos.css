@@ -1,3 +1,34 @@
+header ul {
+    text-align: center;
+    font-size:xx-large;
+    margin:0; 
+}
+header li {
+    display: inline-block;
+    margin-right: 30px;
+}
+#idHeader{
+    background-color: rgb(255, 108, 108);
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: url("../img/hearts.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+#idExp{
+    color: white;
+}
+#idDExp{
+    color: white;
+}
+#idPExp{
+    color: white;
+}
 #idNos1{
     height: 300px;
     width: 500px;
@@ -15,6 +46,27 @@
     width: 500px;
 }
 
+/* info */
+#idInfoGen{
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+#idSecR1{
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+#idSecR2{
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+#idSecR3{
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+#idSecR4{
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
 
 /*Juego 1*/
 

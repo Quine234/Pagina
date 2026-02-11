@@ -1,11 +1,26 @@
 
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('idJue1').style.display = 'none';
-    document.getElementById('idJue2').style.display = 'none';
-    document.getElementById('idJue3').style.display = 'none';
-    document.getElementById('idJue4').style.display = 'none';
-    
-    
+    inicio();
+let cancion = new Audio('./sonido/DWAS.mp3');
+let sonando = false;
+
+document.getElementById('idBotCanc').addEventListener('click', function () {
+    if (sonando) {
+        cancion.pause();
+        cancion.currentTime = 0;
+    } else {
+        cancion.play();
+    }
+    sonando = !sonando;
+});
+document.getElementById("idMusFla").addEventListener("click", function () {
+    if (!cancion.paused) {
+        cancion.pause();
+        cancion.currentTime = 0;
+        sonando = false;
+    }
+});
+
     let razon2 = document.getElementById("idRa2");
     let razon3 = document.getElementById("idRa3");
     let razon4 = document.getElementById("idRa4");
@@ -17,17 +32,22 @@ document.addEventListener('DOMContentLoaded', function() {
     let hab = false;
     let hab3 = false;
     let startMemoria;
-        inicio();
+        
         Flap();
         Minesweeper();
         
         
         
 });
-
 function inicio() {
-
-
+    document.getElementById('idJue1').style.display = 'none';
+    document.getElementById('idJue2').style.display = 'none';
+    document.getElementById('idJue3').style.display = 'none';
+    document.getElementById('idJue4').style.display = 'none';
+    document.getElementById('idSecR1').style.display = 'none';
+    document.getElementById('idSecR2').style.display = 'none';
+    document.getElementById('idSecR3').style.display = 'none';
+    document.getElementById('idSecR4').style.display = 'none';
 
 
 
@@ -59,9 +79,45 @@ function inicio() {
     document.getElementById('idJue3').style.display = 'none';
     document.getElementById('idJue4').style.display = 'block';
   }); 
-  
+
+function toggleSeccion(btnId, secId) {
+  const sec1 = document.getElementById('idSecR1');
+  const sec2 = document.getElementById('idSecR2');
+  const sec3 = document.getElementById('idSecR3');
+  const sec4 = document.getElementById('idSecR4');
+
+  const target = document.getElementById(secId);
+
+  const visible = target.style.display === 'block';
+
+  sec1.style.display = 'none';
+  sec2.style.display = 'none';
+  sec3.style.display = 'none';
+  sec4.style.display = 'none';
+
+  if (!visible) {
+    target.style.display = 'block';
+  }
 }
 
+document.getElementById('idBotRa1').addEventListener('click', function () {
+  toggleSeccion('idBotRa1', 'idSecR1');
+});
+
+document.getElementById('idRa2').addEventListener('click', function () {
+  toggleSeccion('idRa2', 'idSecR2');
+});
+
+document.getElementById('idRa3').addEventListener('click', function () {
+  toggleSeccion('idRa3', 'idSecR3');
+});
+
+document.getElementById('idRa4').addEventListener('click', function () {
+  toggleSeccion('idRa4', 'idSecR4');
+});
+
+  
+}
 function blackjack() {
   let dealerSum = 0;
   let yourSum = 0;
@@ -303,12 +359,7 @@ function blackjack() {
 
   start();
 }
-
-
-//DONE FOR NOW NEEDS VOLVER
 function Flap() {
-
-
     let razon2 = document.getElementById("idRa2");
     razon2.disabled = true;
     let paso2 = false;
@@ -519,9 +570,34 @@ btnC.addEventListener('click', function(){
 function detectCol(a, b){
     return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
 }
+let btnVolverM = document.getElementById("idVolverM");
+if (btnVolverM) {
+  btnVolverM.onclick = function () {
+    terJuego = true;
+    terJuegoG = false;
+    empJuego = false;
+
+    musicaFla.pause();
+    musicaFla.currentTime = 0;
+
+    let b1 = document.getElementById("idInt");
+    if (b1) b1.disabled = true;
+
+    let b2 = document.getElementById("idCompletar");
+    if (b2) b2.disabled = true;
+
+    let jue = document.getElementById("idJue2");
+    if (jue) jue.style.display = "none";
+
+    let info = document.getElementById("idInfoGen");
+    if (info) info.style.display = "block";
+
+    let open = document.getElementById("idBotJue2");
+    if (open) open.disabled = true;
+  };
 }
 
-
+}
 function Memoria(){
     let razon3 = document.getElementById("idRa3");
     razon3.disabled = true;
@@ -555,10 +631,16 @@ function Memoria(){
     let audFail = new Audio("./sonido/Bonk.mp3");
     let audWin = new Audio("./sonido/win.mp3");
 
+    const btnVolver3 = document.getElementById("idVolver3");
+    const btnInt3 = document.getElementById("idInt3");
+    const btnComp3 = document.getElementById("idCompletar3");
+    const btnOpen3 = document.getElementById("idBotJue3");
+
+    btnInt3.disabled = true;
+    btnComp3.disabled = false;
+
     barajar();
     empJue3();
-    
-    
 
     function barajar (){
         setC = listaC.concat(listaC);
@@ -569,7 +651,6 @@ function Memoria(){
             let temp = setC[i]
             setC[i] = setC [j];
             setC[j] = temp;
-        
         }
     }
 
@@ -590,90 +671,150 @@ function Memoria(){
             tablaC.push(filaC);
         }
         setTimeout(escCart, 3000);
-    
-        }
-        
+    }
 
     function escCart(){
         for(let f = 0; f < filasC; f++){
             for(let c = 0; c < columnasC; c++){
                 let carta = document.getElementById(f.toString() + '-' + c.toString());
                 carta.src = './img/cards/back.jpg'
+                carta.style.pointerEvents = "auto";
             }
         }
     }
 
-function selecC(){
-    if(cartasAcertadas.has(this.id)) return;
-    if(this.src.includes('back.jpg')){
-        if(!tarj1Sel) {
-            tarj1Sel = this;
-            let coord = tarj1Sel.id.split('-');
-            let r = parseInt(coord[0]);
-            let c = parseInt(coord[1]);
-            tarj1Sel.src = './img/cards/' + tablaC[r][c] + ".jpg";
+    function selecC(){
+        if (bloqueado) return;
+        if(cartasAcertadas.has(this.id)) return;
 
+        if(this.src.includes('back.jpg')){
+            if(!tarj1Sel) {
+                tarj1Sel = this;
+                let coord = tarj1Sel.id.split('-');
+                let r = parseInt(coord[0]);
+                let c = parseInt(coord[1]);
+                tarj1Sel.src = './img/cards/' + tablaC[r][c] + ".jpg";
+            }
+            else if (!tarj2Sel && this != tarj1Sel){
+                tarj2Sel = this;
+                let coord = tarj2Sel.id.split('-');
+                let r = parseInt(coord[0]);
+                let c = parseInt(coord[1]);
+                tarj2Sel.src = './img/cards/' + tablaC[r][c] + ".jpg";
+
+                bloqueado = true;
+                setTimeout(act, 1000);
+            } 
         }
-        else if (!tarj2Sel && this != tarj1Sel){
-            tarj2Sel = this;
-            let coord = tarj2Sel.id.split('-');
-            let r = parseInt(coord[0]);
-            let c = parseInt(coord[1]);
-            tarj2Sel.src = './img/cards/' + tablaC[r][c] + ".jpg";
+    }
 
-            setTimeout(act, 1000);
+    function act() {
+        if(tarj1Sel.src != tarj2Sel.src) {
+            tarj1Sel.src = './img/cards/back.jpg';
+            tarj2Sel.src = './img/cards/back.jpg';
+            errores += 1;
+            document.getElementById('idErrores').innerText = errores;
+
+            if (errores >= 15) {
+                finJuego(false);
+            }
+        } else {
+            cartasAcertadas.add(tarj1Sel.id);
+            cartasAcertadas.add(tarj2Sel.id);
+
+            document.getElementById(tarj1Sel.id).style.pointerEvents = "none";
+            document.getElementById(tarj2Sel.id).style.pointerEvents = "none";
+
+            paresHechos += 1;
+            if (paresHechos === (filasC * columnasC) / 2) {
+                finJuego(true);
+            }
+        }
+
+        tarj1Sel = null;
+        tarj2Sel = null;
+        bloqueado = false;
+    }
+
+    function bloquearCartas() {
+        for (let f = 0; f < filasC; f++) {
+            for (let c = 0; c < columnasC; c++) {
+                let carta = document.getElementById(f + '-' + c);
+                if (carta) carta.style.pointerEvents = 'none';
+            }
+        }
+    }
+
+    function finJuego(gano) {
+        bloquearCartas();
+        bloqueado = true;
+
+        if (gano) {
+            audWin.currentTime = 0;
+            audWin.play();
+            document.getElementById('idErrores').innerText = "BIEN PUCHIIII TODO ENCONTRADITOOO";
+            razon3.disabled = false;
+
+            btnInt3.disabled = true;
+            btnComp3.disabled = true;
         } 
-    }
-}
+        else {
+            audFail.currentTime = 0;
+            audFail.play();
+            alert("Vamos gordi que podes, yo confio!!!!!");
 
-function act() {
-    if(tarj1Sel.src != tarj2Sel.src) {
-        tarj1Sel.src = './img/cards/back.jpg';
-        tarj2Sel.src = './img/cards/back.jpg';
-        errores += 1;
-        document.getElementById('idErrores').innerText = errores;
-
-        if (errores >= 15) {
-            finJuego(false);
-        }
-    } else {
-        paresHechos += 1;
-        if (paresHechos === (filasC * columnasC) / 2) {
-            finJuego(true);
-        }
-
-    }
-
-
-    tarj1Sel = null;
-    tarj2Sel = null;
-
-}
-
-function finJuego(gano) {
-    for (let f = 0; f < filasC; f++) {
-        for (let c = 0; c < columnasC; c++) {
-            let carta = document.getElementById(f + '-' + c);
-            carta.style.pointerEvents = 'none';
+            btnInt3.disabled = false;
+            btnComp3.disabled = true;
         }
     }
-    if (gano) {
+
+    btnComp3.onclick = function () {
+        if (btnComp3.disabled) return;
+
+        audWin.currentTime = 0;
         audWin.play();
-        document.getElementById('idErrores').innerText = "BIEN PUCHIIII TODO ENCONTRADITOOO";
+        document.getElementById('idErrores').innerText = "BIEN PUCHIIII";
         razon3.disabled = false;
-    } 
-    else {
-        audFail.play();
-        alert("Vamos gordi que podes, yo confio!!!!!");
-    }
+
+        bloquearCartas();
+        bloqueado = true;
+
+        btnInt3.disabled = true;
+        btnComp3.disabled = true;
+    };
+
+    btnInt3.onclick = function () {
+        btnInt3.disabled = true;
+        btnComp3.disabled = false;
+
+        errores = 0;
+        paresHechos = 0;
+        tarj1Sel = null;
+        tarj2Sel = null;
+        bloqueado = false;
+        cartasAcertadas = new Set();
+        tablaC = [];
+
+        document.getElementById('idErrores').innerText = "0";
+        document.getElementById('idTabla').innerHTML = "";
+
+        barajar();
+        empJue3();
+    };
+
+    btnVolver3.onclick = function () {
+        bloquearCartas();
+        bloqueado = true;
+
+        btnInt3.disabled = true;
+        btnComp3.disabled = true;
+
+        document.getElementById("idJue3").style.display = "none";
+        document.getElementById("idInfoGen").style.display = "block";
+
+        if (btnOpen3) btnOpen3.disabled = true;
+    };
 }
-
-
-
-}
-
-
-//DONE FOR NOW NEEDS VOLVER
 function Minesweeper (){
 let razon4 = document.getElementById("idRa4");
 razon4.disabled = true;
@@ -918,4 +1059,30 @@ for (let i = 0; i < filas; i++) {
     let btn = document.getElementById('idBotComp4');
     btn.disabled = false;
 }
+let btnVolM = document.getElementById("idVolM");
+if (btnVolM) {
+  btnVolM.onclick = function () {
+    finJue4 = true;
+    bandPer = false;
+
+    let bBand = document.getElementById("idBotonBandera");
+    if (bBand) bBand.disabled = true;
+
+    let bComp = document.getElementById("idBotComp4");
+    if (bComp) bComp.disabled = true;
+
+    let bInt = document.getElementById("idInt4");
+    if (bInt) bInt.disabled = true;
+
+    let jue = document.getElementById("idJue4");
+    if (jue) jue.style.display = "none";
+
+    let info = document.getElementById("idInfoGen");
+    if (info) info.style.display = "block";
+
+    let open = document.getElementById("idBotJue4");
+    if (open) open.disabled = true;
+  };
+}
+
 }
