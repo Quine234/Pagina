@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let razon2 = document.getElementById("idRa2");
     let razon3 = document.getElementById("idRa3");
     let razon4 = document.getElementById("idRa4");
+    let razon1 = document.getElementById("idBotRa1");
+        razon1.disabled = true;
         razon2.disabled = true;
         razon3.disabled = true;
         razon4.disabled = true;
@@ -36,7 +38,7 @@ function inicio() {
   }); 
   
 }
-function trivia(){
+function blackjack(){
 
 }
 

@@ -16,7 +16,7 @@
                 <li id="idObLi1">Te</li>
                 <li id="idObLi2">AMO</li>
                 <li id="idObLi3">MUCHO</li>
-                <img src="img/cora2.png" id="idCo2" alt="Co2">
+              
             </ul>
             <input type="button" id="idBotRep" value="Nuestra Cancion">
         </header>
@@ -47,21 +47,24 @@
                 </section>
             <section id="idJue1">
                 <div><h2>El Primer Juego Es: </h2></div>
-                <div><h1>TRIVIA</h1></div>
-                <p>Embocale a cada pregunta y al final ganas un premio :D</p>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>Pregunta</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div id="idDivResp"><input type="button" id="idBotResp1" value="Respuesta1"><input type="button" id="idBotResp2" value="Respuesta2"><input type="button" id="idBotResp3" value="Respuesta3"></div>
+                <div><h1>Blackjack</h1></div>
+                <p>Ganale al dealer (no te pases de 21) y al final ganas un premio :D</p>
+                <h2>Dealer: <span id="dealer-sum"></span></h2>
+                <div id="dealer-cards">
+                <img id="hidden" src="./img/B-cards/BACK.png">
+                </div>
+                <h2>You: <span id="your-sum"></span></h2>
+                <div id="your-cards"></div>
+                <br>
+                <button id="hit">Hit</button>
+                <button id="stay">Stay</button>
+                <p id="results"></p>
                 <p id="idBotonesT"><button type="button" id=" idVolverT" class="btn btn-primary">Volver</button><input type="button" id="idAyudaT" value="Ayuda" class="btn btn-primary" ><input type="button" id="idSiguienteT" value="Siguiente" class="btn btn-primary"></p>
             </section>
             <section id="idJue2">
                 <div><h2>El Segundo Juego ES:</h2></div> 
                 <div><h1>FLAPPY QUINE</h1></div>
+                <div><h2>apreta x para saltar</h2></div>
                 <p><input type="button" value="Musiquita" id="idMusFla"></p>    
                 <div id="idDivCan"><canvas id="idCanvas"></canvas></div>
                 <div id="idBotones"><input type="button" id="idVolverM" value="Volver" class="btn btn-primary"><input type="button" id="idInt" value="Intentar De Nuevo" class="btn btn-primary"><input type="button" id="idCompletar" value="Completar" class="btn btn-primary"></div> 
