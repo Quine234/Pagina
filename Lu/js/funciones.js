@@ -1,5 +1,6 @@
 
 document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('idJue1').style.display = 'none';
     document.getElementById('idJue2').style.display = 'none';
     document.getElementById('idJue3').style.display = 'none';
     document.getElementById('idJue4').style.display = 'none';
@@ -25,26 +26,289 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function inicio() {
+
+
+
+
+
+    document.getElementById('idBotJue1').addEventListener('click', function(){
+    document.getElementById('idJue1').style.display = 'block';
+    document.getElementById('idJue2').style.display = 'none';
+    document.getElementById('idJue3').style.display = 'none';
+    document.getElementById('idJue4').style.display = 'none';
+    blackjack();
+
+  });
   document.getElementById('idBotJue2').addEventListener('click', function(){
     document.getElementById('idJue2').style.display = 'block';
+    document.getElementById('idJue1').style.display = 'none';
+    document.getElementById('idJue3').style.display = 'none';
+    document.getElementById('idJue4').style.display = 'none';
     hab = true;
   }); 
    document.getElementById('idBotJue3').addEventListener('click', function(){
+    document.getElementById('idJue1').style.display = 'none';
+    document.getElementById('idJue2').style.display = 'none';
+    document.getElementById('idJue4').style.display = 'none';
     document.getElementById('idJue3').style.display = 'block';
     Memoria();
   }); 
   document.getElementById('idBotJue4').addEventListener('click', function(){
+    document.getElementById('idJue1').style.display = 'none';
+    document.getElementById('idJue2').style.display = 'none';
+    document.getElementById('idJue3').style.display = 'none';
     document.getElementById('idJue4').style.display = 'block';
   }); 
   
 }
-function blackjack(){
 
+function blackjack() {
+  let dealerSum = 0;
+  let yourSum = 0;
+  let dealerAceCount = 0;
+  let yourAceCount = 0;
+  let hiddenCard = null;
+  let deck = [];
+  let gameOver = false;
+
+  const dealerCardsEl = document.getElementById("dealer-cards");
+  const yourCardsEl = document.getElementById("your-cards");
+  const hitBtn = document.getElementById("hit");
+  const stayBtn = document.getElementById("stay");
+  const dealerSumEl = document.getElementById("dealer-sum");
+  const yourSumEl = document.getElementById("your-sum");
+  const resultsEl = document.getElementById("results");
+
+  const btnReint = document.getElementById("idInt1");
+  const btnVolver = document.getElementById("idVolver1");
+  const btnComp = document.getElementById("idComp1");
+  const btnOpen = document.getElementById("idBotJue1");
+  const razon1 = document.getElementById("idBotRa1");
+
+  const winAudio = new Audio("./sonido/win.mp3");
+  const failAudio = new Audio("./sonido/Bonk.mp3");
+
+  const pInstr =
+    document.getElementById("idInstrBJ") ||
+    Array.from(document.querySelectorAll("p")).find(p =>
+      p.textContent && p.textContent.includes("Ganale al dealer")
+    );
+
+  function buildDeck() {
+    const v = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
+    const t = ["C","D","H","S"];
+    deck = [];
+    for (let x of t) for (let y of v) deck.push(y + "-" + x);
+  }
+
+  function shuffle() {
+    for (let i = deck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
+  }
+
+  function val(c) {
+    const v = c.split("-")[0];
+    if (v === "A") return 11;
+    if (v === "J" || v === "Q" || v === "K") return 10;
+    return parseInt(v);
+  }
+
+  function isAce(c) {
+    return c[0] === "A";
+  }
+
+  function fix(sum, aces) {
+    while (sum > 21 && aces > 0) {
+      sum -= 10;
+      aces--;
+    }
+    return sum;
+  }
+
+  function img(c) {
+    const i = document.createElement("img");
+    i.src = "./img/B-cards/" + c + ".png";
+    return i;
+  }
+
+  function clear() {
+    dealerCardsEl.innerHTML = "";
+    yourCardsEl.innerHTML = "";
+    dealerSumEl.innerText = "";
+    yourSumEl.innerText = "";
+    resultsEl.innerText = "";
+  }
+
+  function revealHidden() {
+    const h = document.getElementById("hidden");
+    if (h && hiddenCard) h.src = "./img/B-cards/" + hiddenCard + ".png";
+  }
+
+  function setLose() {
+    gameOver = true;
+    hitBtn.disabled = true;
+    stayBtn.disabled = true;
+    btnReint.disabled = false;
+    btnComp.disabled = true;
+    failAudio.currentTime = 0;
+    failAudio.play();
+  }
+
+  function setWin() {
+    gameOver = true;
+    hitBtn.disabled = true;
+    stayBtn.disabled = true;
+    btnReint.disabled = true;
+    btnComp.disabled = true;
+    if (razon1) razon1.disabled = false;
+    winAudio.currentTime = 0;
+    winAudio.play();
+  }
+
+  function start() {
+    clear();
+    buildDeck();
+    shuffle();
+
+    dealerSum = 0;
+    yourSum = 0;
+    dealerAceCount = 0;
+    yourAceCount = 0;
+    hiddenCard = null;
+    gameOver = false;
+
+    const h = document.createElement("img");
+    h.id = "hidden";
+    h.src = "./img/B-cards/BACK.png";
+    dealerCardsEl.append(h);
+
+    hiddenCard = deck.pop();
+    dealerSum += val(hiddenCard);
+    if (isAce(hiddenCard)) dealerAceCount++;
+
+    const d = deck.pop();
+    dealerSum += val(d);
+    if (isAce(d)) dealerAceCount++;
+    dealerCardsEl.append(img(d));
+
+    for (let i = 0; i < 2; i++) {
+      const c = deck.pop();
+      yourSum += val(c);
+      if (isAce(c)) yourAceCount++;
+      yourCardsEl.append(img(c));
+    }
+
+    yourSumEl.innerText = fix(yourSum, yourAceCount);
+
+    hitBtn.disabled = false;
+    stayBtn.disabled = false;
+    btnReint.disabled = true;
+    btnComp.disabled = false;
+
+    if (pInstr) pInstr.innerText = "Ganale al dealer (no te pases de 21) y al final ganas un premio :D";
+  }
+
+  function dealerPlay() {
+    while (fix(dealerSum, dealerAceCount) < 17) {
+      const c = deck.pop();
+      dealerSum += val(c);
+      if (isAce(c)) dealerAceCount++;
+      dealerCardsEl.append(img(c));
+    }
+  }
+
+  function finalize() {
+    revealHidden();
+
+    dealerSum = fix(dealerSum, dealerAceCount);
+    yourSum = fix(yourSum, yourAceCount);
+
+    dealerSumEl.innerText = dealerSum;
+    yourSumEl.innerText = yourSum;
+
+    if (yourSum > 21) {
+      resultsEl.innerText = "You Lose!";
+      setLose();
+      return;
+    }
+
+    if (dealerSum > 21) {
+      resultsEl.innerText = "You Win!";
+      setWin();
+      return;
+    }
+
+    if (yourSum === dealerSum) {
+      resultsEl.innerText = "Tie!";
+      setLose();
+      return;
+    }
+
+    if (yourSum > dealerSum) {
+      resultsEl.innerText = "You Win!";
+      setWin();
+      return;
+    }
+
+    resultsEl.innerText = "You Lose!";
+    setLose();
+  }
+
+  hitBtn.onclick = function () {
+    if (gameOver) return;
+    const c = deck.pop();
+    yourSum += val(c);
+    if (isAce(c)) yourAceCount++;
+    yourCardsEl.append(img(c));
+    yourSumEl.innerText = fix(yourSum, yourAceCount);
+    if (fix(yourSum, yourAceCount) > 21) finalize();
+  };
+
+  stayBtn.onclick = function () {
+    if (gameOver) return;
+    dealerPlay();
+    finalize();
+  };
+
+  btnReint.onclick = start;
+
+  btnComp.onclick = function () {
+    if (btnComp.disabled) return;
+    gameOver = true;
+    hitBtn.disabled = true;
+    stayBtn.disabled = true;
+    btnReint.disabled = true;
+    btnComp.disabled = true;
+    if (razon1) razon1.disabled = false;
+    if (pInstr) pInstr.innerText = "Bien gordiiiiii";
+    resultsEl.innerText = "Completado.";
+    winAudio.currentTime = 0;
+    winAudio.play();
+  };
+
+  btnVolver.onclick = function () {
+    gameOver = true;
+    hitBtn.disabled = true;
+    stayBtn.disabled = true;
+    btnReint.disabled = true;
+    btnComp.disabled = true;
+
+    document.getElementById("idJue1").style.display = "none";
+    document.getElementById("idInfoGen").style.display = "block";
+
+    if (btnOpen) btnOpen.disabled = true;
+  };
+
+  start();
 }
 
 
 //DONE FOR NOW NEEDS VOLVER
 function Flap() {
+
+
     let razon2 = document.getElementById("idRa2");
     razon2.disabled = true;
     let paso2 = false;
